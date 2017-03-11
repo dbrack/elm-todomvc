@@ -68,6 +68,7 @@ type alias Entry =
     , completed : Bool
     , editing : Bool
     , id : Int
+    , color: String
     }
 
 
@@ -85,6 +86,7 @@ newEntry desc id =
     { description = desc
     , completed = False
     , editing = False
+    , color = "white"
     , id = id
     }
 
@@ -113,6 +115,7 @@ type Msg
     | Check Int Bool
     | CheckAll Bool
     | ChangeVisibility String
+    | ChangeColor Int String
 
 
 
@@ -195,10 +198,19 @@ update msg model =
             { model | visibility = visibility }
                 ! []
 
+        ChangeColor id newColor ->
+            let
+                updateEntry t =
+                    if t.id == id then
+                        { t | color = newColor }
+                    else
+                        t
+            in
+                { model | entries = List.map updateEntry model.entries }
+                    ! []
 
 
 -- VIEW
-
 
 view : Model -> Html Msg
 view model =
@@ -296,6 +308,12 @@ viewEntries visibility entries =
 
 -- VIEW INDIVIDUAL ENTRIES
 
+colorOption : String -> Html msg
+colorOption colorOpt =
+    option [ value colorOpt ] [ text colorOpt ]
+
+colorOptions : List String
+colorOptions = ["white", "red", "blue"]
 
 viewKeyedEntry : Entry -> ( String, Html Msg )
 viewKeyedEntry todo =
@@ -317,7 +335,9 @@ viewEntry todo =
                 []
             , label
                 [ onDoubleClick (EditingEntry todo.id True) ]
-                [ text todo.description ]
+                [ text (todo.description ++ " (color: " ++ todo.color ++  ")") ]
+            , select [ onInput (ChangeColor todo.id) ]
+                (List.map colorOption colorOptions)
             , button
                 [ class "destroy"
                 , onClick (Delete todo.id)
