@@ -313,9 +313,9 @@ viewEntries visibility entries =
 -- VIEW INDIVIDUAL ENTRIES
 
 
-colorOption : String -> Html msg
-colorOption colorOpt =
-    option [ value colorOpt ] [ text colorOpt ]
+colorOption : String -> String -> Html msg
+colorOption colorOpt todoColor =
+    option [ value colorOpt, selected (colorOpt == todoColor) ] [ text colorOpt ]
 
 
 colorOptions : List String
@@ -345,9 +345,9 @@ viewEntry todo =
                 [ class todo.color
                 , onDoubleClick (EditingEntry todo.id True)
                 ]
-                [ text (todo.description ++ " (color: " ++ todo.color ++ ")") ]
+                [ text todo.description ]
             , select [ onInput (ChangeColor todo.id) ]
-                (List.map colorOption colorOptions)
+                (List.map (\c -> colorOption c todo.color) colorOptions)
             , button
                 [ class "destroy"
                 , onClick (Delete todo.id)
