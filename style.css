@@ -210,6 +210,20 @@ label[for='toggle-all'] {
     transition: color 0.4s;
 }
 
+.todo-list li label.red {
+    color: #fff;
+    background-color:red;
+}
+
+.todo-list li label.blue {
+    color: #fff;
+    background-color: blue;
+}
+
+.todo-list li label.white {
+    background-color: #fff;
+}
+
 .todo-list li.completed label {
     color: #d9d9d9;
     text-decoration: line-through;

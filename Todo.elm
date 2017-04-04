@@ -334,7 +334,9 @@ viewEntry todo =
                 ]
                 []
             , label
-                [ onDoubleClick (EditingEntry todo.id True) ]
+                [ class todo.color
+                , onDoubleClick (EditingEntry todo.id True)
+                ]
                 [ text (todo.description ++ " (color: " ++ todo.color ++  ")") ]
             , select [ onInput (ChangeColor todo.id) ]
                 (List.map colorOption colorOptions)
