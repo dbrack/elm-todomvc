@@ -52,9 +52,9 @@ updateWithStorage msg model =
 
 
 -- MODEL
-
-
 -- The full application state of our todo app.
+
+
 type alias Model =
     { entries : List Entry
     , field : String
@@ -68,7 +68,7 @@ type alias Entry =
     , completed : Bool
     , editing : Bool
     , id : Int
-    , color: String
+    , color : String
     }
 
 
@@ -120,6 +120,8 @@ type Msg
 
 
 -- How we update our Model on a given Msg?
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -210,7 +212,9 @@ update msg model =
                     ! []
 
 
+
 -- VIEW
+
 
 view : Model -> Html Msg
 view model =
@@ -308,12 +312,16 @@ viewEntries visibility entries =
 
 -- VIEW INDIVIDUAL ENTRIES
 
+
 colorOption : String -> Html msg
 colorOption colorOpt =
     option [ value colorOpt ] [ text colorOpt ]
 
+
 colorOptions : List String
-colorOptions = ["white", "red", "blue"]
+colorOptions =
+    [ "white", "red", "blue" ]
+
 
 viewKeyedEntry : Entry -> ( String, Html Msg )
 viewKeyedEntry todo =
@@ -337,7 +345,7 @@ viewEntry todo =
                 [ class todo.color
                 , onDoubleClick (EditingEntry todo.id True)
                 ]
-                [ text (todo.description ++ " (color: " ++ todo.color ++  ")") ]
+                [ text (todo.description ++ " (color: " ++ todo.color ++ ")") ]
             , select [ onInput (ChangeColor todo.id) ]
                 (List.map colorOption colorOptions)
             , button
